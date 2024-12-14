@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login Page</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+  <style>
+    body, html {
+      height: 100%;
+      margin: 0;
+      font-family: "Lato", sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #f0f0f0; /* Light background for contrast */
+    }
+    .login-container {
+      max-width: 400px;
+      padding: 20px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      text-align: center;
+    }
+    .login-container h3 {
+      margin-bottom: 20px;
+      font-size: 24px;
+      color: #333;
+    }
+    .login-container input {
+      margin-bottom: 16px;
+    }
+    .login-container button {
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+
+<div class="login-container">
+  <h3>please login</h3>
+  <!-- Display Flash messages here -->
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            {% for msg in messages %}
+
+              <p> {{msg}} </p>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+
+  <form id="loginForm" action="/login" method="POST">
+  <div class="w3-row-padding" style="margin:0 -16px;">
+    <div class="w3-col s12">
+      <input class="w3-input w3-border" type="text" placeholder="Username" required name="username">
+    </div>
+    <div class="w3-col s12">
+      <input class="w3-input w3-border" type="password" placeholder="Password" required name="password">
+    </div>
+  </div>
+  <button class="w3-button w3-black w3-section" type="submit">LOGIN</button>
+</form>
+
+  <!-- Register Button -->
+  <button onclick="document.getElementById('registerModal').style.display='block'"
+          class="w3-button w3-gray w3-section">REGISTER</button>
+</div>
+
+<!-- Modal for Registration -->
+<div id="registerModal" class="w3-modal">
+  <div class="w3-modal-content w3-animate-top w3-card-4">
+    <header class="w3-container w3-teal">
+      <span onclick="document.getElementById('registerModal').style.display='none'"
+            class="w3-button w3-display-topright">&times;</span>
+      <h2>Register</h2>
+    </header>
+    <div class="w3-container">
+      <form id="registerForm" action="/register" method="POST">
+        <!-- Display Flash messages here -->
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            {% for msg in messages %}
+
+              <p> {{msg}} </p>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+        <p><input class="w3-input w3-border" type="text" placeholder="Username" required name="username"></p>
+        <p><input class="w3-input w3-border" type="password" placeholder="Password" required name="password"></p>
+        <button class="w3-button w3-teal w3-section" type="submit">REGISTER</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
+</body>
+</html>

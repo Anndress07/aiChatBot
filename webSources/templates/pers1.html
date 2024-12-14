@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Text and Reply System</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f4f4f4;
+    }
+
+    .chat-container {
+      width: 400px;
+      max-width: 100%;
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .chat-box {
+      max-height: 300px;
+      overflow-y: auto;
+      margin-bottom: 20px;
+      padding: 10px;
+      background-color: #f9f9f9;
+      border-radius: 10px;
+      box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .message {
+      margin: 10px 0;
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      border-radius: 8px;
+      background-color: #f1f1f1;
+    }
+
+    .user-message {
+      background-color: #d1e7ff;
+      text-align: right;
+      flex-direction: row-reverse;
+    }
+
+    .bot-message {
+      background-color: #e9f7e7;
+      text-align: left;
+      flex-direction: row;
+    }
+
+    .message img {
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      margin: 0 10px;
+    }
+
+    .input-container {
+      display: flex;
+      gap: 10px;
+    }
+
+    input[type="text"] {
+      flex: 1;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+
+    button {
+      padding: 10px 15px;
+      border: none;
+      background-color: #4CAF50;
+      color: white;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+
+<div class="chat-container">
+  <h2 style="text-align:center;">Text and Reply System</h2>
+  <div class="chat-box" id="chatBox"></div>
+  <form id="userMSG" action="/pers1" method="POST" onsubmit="sendMessage(event)">
+    <div class="input-container">
+      <input type="text" id="userInput" name="userInput" placeholder="Type your message...">
+      <button type="submit">Send</button>
+    </div>
+  </form>
+</div>
+
+<script>
+  // Function to add a message to the chat
+  function addMessage(message, isUser) {
+    const chatBox = document.getElementById("chatBox");
+    const messageDiv = document.createElement("div");
+    messageDiv.classList.add("message");
+    messageDiv.classList.add(isUser ? "user-message" : "bot-message");
+
+    // Create image element for the person sending the message
+    const img = document.createElement("img");
+    img.src = isUser ? "https://www.w3schools.com/w3images/avatar2.png" : "https://www.w3schools.com/w3images/avatar.png";
+    img.alt = isUser ? "User" : "Bot";
+
+    // Add message text and image to the message div
+    messageDiv.appendChild(img);
+    messageDiv.appendChild(document.createTextNode(message));
+    chatBox.appendChild(messageDiv);
+
+    chatBox.scrollTop = chatBox.scrollHeight;  // Scroll to the latest message
+  }
+
+  // Function to handle form submission
+  function sendMessage(event) {
+    event.preventDefault();  // Prevent the default form submission
+
+    const userInput = document.getElementById("userInput");
+    const userMessage = userInput.value.trim();
+
+    if (userMessage !== "") {
+      addMessage(userMessage, true);  // Add user message
+      userInput.value = "";  // Clear input field
+
+      // Simulate a bot response (you can customize this)
+      setTimeout(() => {
+        const botReply = "You said: " + userMessage;  // Bot reply is based on the user's message
+        addMessage(botReply, false);  // Add bot message
+      }, 1000);  // Simulate a delay for bot reply
+    }
+
+    // After the simulated reply, you can use AJAX to send the input to Flask without reloading
+    fetch('/pers1', {
+      method: 'POST',
+      body: new URLSearchParams({ userInput: userMessage }),
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    })
+    .then(response => response.text())
+    .then(data => console.log('Response from Flask:', data))
+    .catch(error => console.error('Error:', error));
+  }
+</script>
+
+</body>
+</html>

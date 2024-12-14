@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clickable Images Example</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+  <style>
+    body {
+      font-family: "Lato", sans-serif;
+      text-align: center;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+
+    h1 {
+      margin-top: 50px;
+      font-size: 36px;
+      color: #333;
+    }
+
+    .image-container {
+      display: flex;
+      justify-content: center;
+      gap: 50px;
+      margin-top: 30px;
+    }
+
+    .image-item {
+      text-align: center;
+      display: inline-block;
+    }
+
+    .image-item img {
+      width: 300px;
+      height: 200px;
+      object-fit: cover;
+      cursor: pointer;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .image-item h3 {
+      font-size: 18px;
+      color: #333;
+      margin-top: 10px;
+    }
+
+    .image-item img:hover {
+      transform: scale(1.05);
+      transition: transform 0.3s ease;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Clickable Images</h1>
+
+  <div class="image-container">
+    <div class="image-item">
+      <a href="{{ url_for('pers1') }}">
+        <img src="https://via.placeholder.com/300x200" alt="Image 1">
+        <h3>Image 1 Title</h3>
+      </a>
+    </div>
+    <div class="image-item">
+      <a href="https://www.example.com/image2">
+        <img src="https://via.placeholder.com/300x200" alt="Image 2">
+        <h3>Image 2 Title</h3>
+      </a>
+    </div>
+  </div>
+
+</body>
+</html>
